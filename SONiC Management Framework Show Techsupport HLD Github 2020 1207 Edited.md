@@ -347,7 +347,8 @@ Refer to section 1.1.3
 
 # 10 Internal Design Information
 Please refer to the diagram in Section 4.1, referenced below:
-[Show Techsupport Process Flow](#show-techsupport-process-flow)
+
+[4.1 Show Techsupport Process Flow](#41-show-techsupport-process-flow)
 
 ## 10.1 Overview
 The Management Framework uses the dbuslibc Linux implementation of the D-Bus RPC mechanism to trigger execution of the "generate_dump" Bash script on the host and to receive a response providing the result.
