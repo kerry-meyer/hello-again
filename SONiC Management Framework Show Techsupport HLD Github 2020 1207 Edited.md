@@ -3,13 +3,6 @@ Diagnostic information aggregated presentation
 # High Level Design Document
 #### Rev 0.1
 # Table of Contents
-  * [List of Tables](#list-of-tables)
-  * [Revision](#revision)
-  * [About This Manual](#about-this-manual)
-  * [Scope](#scope)
-  * [Definition/Abbreviation](#definitionabbreviation)
-  * [1 Feature Overview](#1-feature-overview)
-  * [## 1.1 Requirements]
 
   ### 1.1.1 Functional Requirements]
 
