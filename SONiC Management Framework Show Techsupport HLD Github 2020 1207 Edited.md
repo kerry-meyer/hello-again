@@ -318,7 +318,7 @@ REST API support is provided. The REST API corresponds to the SONiC Yang model d
 
 # 4 Flow Diagrams
 ## 4.1 Show Techsupport Process Flow
-![ShowTechsupport process flow](showtech_flow_diagram.jpg)
+![ShowTechsupport process flow](https://github.com/kerry-meyer/hello-again/blob/master/showtech_flow_diagram.JPG)
 
 # 5 Error Handling
 N/A
