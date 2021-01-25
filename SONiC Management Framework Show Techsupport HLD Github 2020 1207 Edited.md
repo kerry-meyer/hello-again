@@ -4,8 +4,6 @@ Diagnostic information aggregated presentation
 #### Rev 0.1
 # Table of Contents
 
-  ### 1.1.1 Functional Requirements]
-
   - [List of Tables](#list-of-tables)
   - [Revision](#revision)
   - [About this Manual](#about-this-manual)
@@ -318,7 +316,7 @@ REST API support is provided. The REST API corresponds to the SONiC Yang model d
 
 # 4 Flow Diagrams
 ## 4.1 Show Techsupport Process Flow
-![ShowTechsupport process flow](https://github.com/kerry-meyer/hello-again/blob/master/showtech_flow_diagram.JPG)
+![ShowTechsupport process flow](showtech_flow_diagram.jpg)
 
 # 5 Error Handling
 N/A
@@ -351,10 +349,10 @@ Please refer to the diagram in Section 4.1, referenced below:
 [4.1 Show Techsupport Process Flow](#41-show-techsupport-process-flow)
 
 ## 10.1 Overview
-The Management Framework uses the dbuslibc Linux implementation of the D-Bus RPC mechanism to trigger execution of the "generate_dump" Bash script on the host and to receive a response providing the result.
+The Management Framework container (a Docker container) uses the SONiC D-Bus RPC mechanism [SONiC Docker to Host communication] (https://github.com/mikelazar/SONiC/blob/69bb868dec98fc05b8b046f0925ca2e89604c49a/doc/mgmt/Docker%20to%20Host%20communication.md "SONiC Docker to Host communication") to trigger execution of the "generate_dump" Bash script on the SONiC host and to receive a response providing the result.
 
 ## 10.2 Management Framework Context
- Execution of the Management Framework "show tech-support" CLI command or the equivalent REST/gNOI invocation causes the corresponding Management Framework "actioner" script to be run. This script invokes the REST API generated from the "show tech-support" Yang definition. The corresponding API handler function initiates an asynchronous D-Bus host request and relays the response, containing the location of a "techsupport bundle" file if execution is successful, back to the Management Framework interface (CLI, REST, or gNOI) from which the request was received.
+ Execution in the SONiC Management Framework docker of the "show tech-support" CLI command or the equivalent REST/gNOI invocation causes the corresponding "actioner" script to be run from the context of the Management Framework docker. This script invokes the REST API generated from the "show tech-support" Yang definition. The corresponding API handler function, registered as a SONiC D-Bus client, initiates an asynchronous D-Bus host query and relays the response, containing the location of a "techsupport bundle" file if execution is successful, back to the Management Framework interface (CLI, REST, or gNOI) from which the request was received. (In the event of an error, it instead returns the error message received from the "show techsupport" servlet running within the context of the server process for the SONiC D-Bus host services object.)
 
 ## 10.3 Host Context
-On the host, execution of the "show techsupport" command is initiated when the Management Framework D-Bus host agent dispatches a request received from the Management Framework by invoking a script registered for for handling of the "show techsupport" command. This script invokes the "generate_dump" Bash script, spawning a process that collects a "bundle" of items providing diagnostic information for processes running on the switch, packs the collected information into a compressed .tar file, and returns the location of the resulting file to the D-Bus agent script on successful completion. (In the event of an error, it instead returns an error message describing the error.) The resulting RPC response is then sent back via the D-Bus RPC infrastructure to the Management Framework D-Bus agent.
+Within the SONiC host context, execution of the "show techsupport" command is initiated when the SONiC D-Bus host facility dispatches a request received from the Management Framework docker by invoking a script (servlet) registered with the SONiC D-Bus host server for handling of the "show techsupport" command. This servlet invokes the "generate_dump" Bash script, spawning a process that collects a "bundle" of items providing diagnostic information for processes running on the switch, packs the collected information into a compressed .tar file, and returns the location of the resulting file to the "show techsupport" D-Bus servlet script on successful completion. (In the event of an error, it instead returns an error message describing the error.) The servlet, via the SONiC host services D-Bus server, then sends the resulting RPC response back to the "show techsupport" client in the SONiC Management Framework docker via the SONic D-Bus RPC infrastructure.
